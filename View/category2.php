@@ -1,7 +1,7 @@
-<?php 
+<?php
 session_start();
 	if(!isset($_SESSION['connected']) || $_SESSION['connected'] != TRUE) {
-		header("Location:http://localhost:8080/stock/View/Authentification.php");
+		header("Location:http://localhost/stock1/View/Authentification.php");
 	}
 	include_once (dirname(__DIR__)."/controller/category_ctl.php");
 	$category=new Category_ctl();
@@ -12,11 +12,11 @@ session_start();
 		$category->Insertcategory($_POST);
 	}
 	if(isset($_GET['deletecategory']) ){
-		
+
 		$category->Deletecategory($_GET);
 	}
 	if(isset($_POST["update"])){
-		
+
 		$category->updatecategory($_POST);
 	}
 	if(isset($_GET['updatecategory']) ){
@@ -24,9 +24,9 @@ session_start();
 		foreach($infotoupdate as $infotoupdatekey=>$infotoupdate_val){
 			$category_id=$infotoupdate_val->getcategory_id();
 			$description=$infotoupdate_val->getdescription();
-			
-			
-					
+
+
+
 		}
 	}
 	$Allcategory=$category->afficherAllcategory();
@@ -37,22 +37,22 @@ session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
-  
+
 <head>
     <meta charset="utf-8">
     <title>Category</title>
-    
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">    
-    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
     <link href="C:/wamp/www/travail/css/bootstrap.min.css" rel="stylesheet">
     <link href="C:/wamp/www/travail/css/bootstrap-responsive.min.css" rel="stylesheet">
-    
+
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
     <link href="C:/wamp/www/travail/css/font-awesome.css" rel="stylesheet">
-    
+
     <link href="C:/wamp/www/travail/css/style.css" rel="stylesheet">
-   
+
 
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -80,45 +80,45 @@ session_start();
         </li>
       </ul>
     </div>
-    <!-- /container --> 
+    <!-- /container -->
   </div>
-  <!-- /subnavbar-inner --> 
+  <!-- /subnavbar-inner -->
 </div>
 <!-- /subnavbar -->
 <div class="main">
-	
+
 	<div class="main-inner">
 
 	    <div class="container">
-	
+
 	      <div class="row">
-	      	
-	      	<div class="span12">      		
-	      		
+
+	      	<div class="span12">
+
 	      		<div class="widget ">
-	      			
+
 	      			<div class="widget-header">
 	  				</div> <!-- /widget-header -->
-					
+
 					<div class="widget-content">
-						
-						
-						
+
+
+
 						<div class="tabbable">
 						<ul class="nav nav-tabs pull-right">
 						 <li>
 						    <a href="category.php" >
 							<button class="btn btn-warning"><i class="icon-plus">Add</i></button></a>
-							
-							
+
+
 						  </li>
-						  
+
 						</ul>
-						
+
 						<br>
 <fieldset>
-											
-                           
+
+
 		<div class="widget widget-table action-table">
             <div class="widget-header"> <i class="icon-th-list"></i>
               <h3>categories </h3>
@@ -139,61 +139,61 @@ session_start();
 					<?php foreach($Allcategory as $key=>$data){?>
                   <tr>
                     <td ><?php echo $data->getdescription();?></td>
-                    <td class="td-actions"><a href="http://localhost:8080/stock/View/category.php?updatecategory=<?php echo $data->getcategory_id();?>" class="btn btn-small btn-success"><i class="btn-icon-only icon-edit"> </i></a></td>
-					<td class="td-actions"><a href="http://localhost:8080/stock/View/category2.php?deletecategory=<?php echo $data->getcategory_id();?>" class="btn btn-danger btn-small"><i class="btn-icon-only icon-remove"> </i></a></td>
+                    <td class="td-actions"><a href="http://localhost/stock1/View/category.php?updatecategory=<?php echo $data->getcategory_id();?>" class="btn btn-small btn-success"><i class="btn-icon-only icon-edit"> </i></a></td>
+					<td class="td-actions"><a href="http://localhost/stock1/View/category2.php?deletecategory=<?php echo $data->getcategory_id();?>" class="btn btn-danger btn-small"><i class="btn-icon-only icon-remove"> </i></a></td>
                   </tr>
-                 
+
                 <?php }?>
                 </tbody>
               </table>
 			  <?php }?>
             </div>
-            <!-- /widget-content --> 
+            <!-- /widget-content -->
           </div>
-		
-	
-	  <center><br/>      
-                                            
-                                           
-                                                                                        
-											
-                                            
-											
+
+
+	  <center><br/>
+
+
+
+
+
+
 											<br />
-											
-											
+
+
 										</fieldset>
 					</form>
-								
-								
-							
-						 </div> 
-						  
-						
-					</div>	
-						
-						
-						
-						
+
+
+
+						 </div>
+
+
+					</div>
+
+
+
+
 					</div> <!-- /widget-content -->
-						
+
 				</div> <!-- /widget -->
-	      		
+
 		    </div> <!-- /span8 -->
-	      	
-	      	
-	      	
-	      	
+
+
+
+
 	      </div> <!-- /row -->
-	
+
 	    </div> <!-- /container -->
-	    
+
 	</div> <!-- /main-inner -->
-    
+
 </div> <!-- /main -->
-	
-	  
-	  
+
+
+
 	   <?php include("footer.php");?>
 </body>
 

@@ -1,7 +1,7 @@
-<?php 
+<?php
 session_start();
 	if(!isset($_SESSION['connected']) || $_SESSION['connected'] != TRUE) {
-		header("Location:http://localhost:8080/stock/View/Authentification.php");
+		header("Location:http://localhost/stock1/View/Authentification.php");
 	}
 	include_once (dirname(__DIR__)."/controller/stock_ctl.php");
 	include_once (dirname(__DIR__)."/controller/category_ctl.php");
@@ -35,36 +35,36 @@ if(isset($_POST["update"])){
 		foreach($infotoupdate as $infotoupdatekey=>$infotoupdate_val){
 			$stock_id=$infotoupdate_val->getstock_id();
 			$nom_domaine=$infotoupdate_val->getNom_domaine();
-			
-			
-					
+
+
+
 		}
 	}
 	$Allstock=$stock->afficherAllstock();
 	// echo "<pre>";
 		// print_r($_POST);
 		// exit;
-	
+
 	include_once (dirname(__DIR__)."/controller/stock_ctl.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
-  
+
 <head>
     <meta charset="utf-8">
     <title>Stock </title>
-    
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">    
-    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
     <link href="C:/wamp/www/travail/css/bootstrap.min.css" rel="stylesheet">
     <link href="C:/wamp/www/travail/css/bootstrap-responsive.min.css" rel="stylesheet">
-    
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
     <link href="C:/wamp/www/travail/css/font-awesome.css" rel="stylesheet">
-    
+
     <link href="C:/wamp/www/travail/css/style.css" rel="stylesheet">
-   
+
 
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -92,43 +92,43 @@ if(isset($_POST["update"])){
         </li>
       </ul>
     </div>
-    <!-- /container --> 
+    <!-- /container -->
   </div>
-  <!-- /subnavbar-inner --> 
+  <!-- /subnavbar-inner -->
 </div>
   <div class="main-inner">
 
 	    <div class="container">
-	
+
 	      <div class="row">
-	      	
-	      	<div class="span12">      		
-	      		
+
+	      	<div class="span12">
+
 	      		<div class="widget ">
-	      			
+
 	      			<div class="widget-header">
 	      				<i class="icon-list"></i>
 	      				<h3> Stock In</h3>
 	  				</div> <!-- /widget-header -->
-					
+
 					<div class="widget-content">
-						
-						
-						
+
+
+
 						<div class="tabbable">
 						<ul class="nav nav-tabs">
 						 <li>
 						    <a href="#formcontrols" data-toggle="tab">Stock form</a>
 						  </li>
-						  
+
 						</ul>
-						
+
 						<br>
-  
+
 	<div>
 		<form action="stock.php" method="post">
 		    <p><label>Category</label>
-		    	<select name="category_id" type="text" value=" " >
+		    	<select name="category_id" type="text" value=" " id="category" >
 					<option value="<?php echo 0;?>">
 						select...
 					</option>
@@ -163,31 +163,43 @@ if(isset($_POST["update"])){
 		<br>
 		<br>
 	</div>
-	  </div> 
-						  
-						
-					</div>	
-						
-						
-						
-						
-					</div> <!-- /widget-content -->
-						
-				</div> <!-- /widget -->
-	      		
-		    </div> <!-- /span8 -->
-	      	
-	      	
-	      	
-	      	
-	      </div> <!-- /row -->
-	
-	    </div> <!-- /container -->
-	    
-	</div> <!-- /main-inner -->
-    
-</div> <!-- /main -->
-  <?php include("footer.php");?> 
-</body>
+	  </div>
 
+
+					</div>
+
+
+
+
+					</div> <!-- /widget-content -->
+
+				</div> <!-- /widget -->
+
+		    </div> <!-- /span8 -->
+
+
+
+
+	      </div> <!-- /row -->
+
+	    </div> <!-- /container -->
+
+	</div> <!-- /main-inner -->
+
+</div> <!-- /main -->
+  <?php include("footer.php");?>
+</body>
+<script>
+	$("#category").change(function(){
+		$.ajax({
+		  method: "GET",
+		  url: "http://localhost/stock1/controller/stock_ctl.php",
+		  data: { category_id: $('#category').val()},
+			dataType: "json"
+		})
+  	.done(function( msg ) {
+    	console.log(msg);
+  	});
+	});
+</script>
 </html>

@@ -1,4 +1,4 @@
-<?php 
+<?php
 	class Dao{
 		public function generateInsertquery($table,$param){
 			$sql="INSERT INTO ".$table."(";
@@ -40,10 +40,10 @@
 			$sql="DELETE FROM ".$table." WHERE sous_category_id=".$sous_category_id;
 			return $sql;
 		}
-		
+
 		public function generateUpdatequerycategory($table,$param){
 			$sql="UPDATE ".$table." SET description='".$param['description']."'  WHERE category_id=".$param['category_id']."";
-			
+
 			return $sql;
 		}
 		public function generatewherequery($table, $array_condition) {

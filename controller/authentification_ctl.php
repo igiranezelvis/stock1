@@ -1,19 +1,19 @@
 <?php
      /**
-     * 
+     *
      */
-   
+
     session_start();
 	//$_SESSION["aut"] = false;
 	//$_SESSION["id"]="";
-	
+
 			if(empty($_SESSION["id"]))
-   
+
 	include_once (dirname(__DIR__)."/model/user_mdl.php");
     class Authentification_ctl{
-        
+
         function __construct() {
-            
+
         }
 		public function authentification($post){
 			$ok=0;
@@ -32,22 +32,22 @@
 				            if($checkIfUserExist[0]->getprofil() == "admin"){
 							$_SESSION["aut"] = "admin";
 							$_SESSION['connected'] = TRUE;
-							header("Location:http://localhost:8080/stock/view/category2.php");
+							header("Location:http://localhost/stock1/View/category2.php");
 						    }
 				            if($checkIfUserExist[0]->getGroup() == "avocat"){
 							$_SESSION["aut"] = "avocat";
 							$_SESSION['connected'] = TRUE;
-							header("Location:http://localhost:8080/stock/view/dossier_frm.php");
+							header("Location:http://localhost/stock1/View/dossier_frm.php");
 						    }
-							
-				
-			     
-				
-				
+
+
+
+
+
 			}
 			else
 			{
-			
+
 			echo "<script language=\"JavaScript\">\n";
             echo "alert('Username or Password was incorrect!');\n";
             echo "window.location='Authentification_frm.php'";
@@ -55,6 +55,6 @@
 			}
 		}
     }
-    
-    
+
+
 ?>

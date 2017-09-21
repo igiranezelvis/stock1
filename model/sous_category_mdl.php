@@ -1,6 +1,6 @@
 <?php
     /**
-     * 
+     *
      */
     //include_once (dirname(__DIR__)."/model/personne_mdl.php");
     include_once (dirname(__DIR__)."/dao/daosous_category.php");
@@ -11,7 +11,7 @@
         protected $category_id;
         protected $category_description;
         protected $description;
-		
+
         function __construct($category_id= NULL,$description= NULL) {
             $this->category_id=$category_id;
             $this->description=$description;
@@ -47,12 +47,12 @@
 			$request=$dao->generateInsertquery($table,$param);
 			$dbconnect=new Connection();
 			$connection=$dbconnect->connectiondb();
-			$connection->exec($request);	
-			
+			$connection->exec($request);
+
 		}
-		
-		
-		
+
+
+
 		public function afficherAllsous_category_mdl(){
 			$table_sous_category="sous_category";
 			$table_category="category";
@@ -69,8 +69,18 @@
 			$request=$dao->generateDeletequerysous_category($table,$sous_category_id);
 			$dbconnect=new Connection();
 			$connection=$dbconnect->connectiondb();
-			$connection->exec($request);	
+			$connection->exec($request);
 		}
+  public function get_sub_categories($category_id) {
+    $table_sous_category="sous_category";
+    $table_category="category";
+    $dao=new Daosous_category();
+    $requette=$dao->get_sub_category_by_category_id($category_id);
+    $dbconnect=new Connection();
+    $connection=$dbconnect->connectiondb();
+    $result=$connection->query($requette);
+    return $result;
+  }
     }
-    
+
 ?>
