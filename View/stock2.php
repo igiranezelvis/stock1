@@ -140,7 +140,7 @@ if(isset($_POST["update"])){
                 </p>
 
 		    <p><label>Sub-category</label>
-		    	<select name="sous_category_id" type="text" value=" " >
+		    	<select name="sous_category_id" type="text" value=" " id="sous_category">
 					<option value="<?php echo 0;?>">
 						select...
 					</option>
@@ -150,10 +150,10 @@ if(isset($_POST["update"])){
 					</option>
 				<?php }?></select></p>
 
-		    <p><label>Initial Balance</label><input type="text" name="initial_balance" value=" "/></p>
-		    <p><label>Stock In</label><input type="text" name="stock_in" value=" "/></p>
+		    <p><label>Initial Balance</label><input type="text" name="initial_balance" readonly="readonly" value=" " id="initial_balance"/></p>
+		    <p><label>Stock In</label><input type="text" name="stock_in" value=" " id="stock_in"/></p>
 		    <!--<p><label>Stock Out</label><input type="text" name="stock_out" value=" "/></p>-->
-		    <p><label>Balance</label><input type="text" name="balance" value=" "/></p>
+		    <p><label>Balance</label><input type="text" readonly="readonly" name="balance" value=" " id="balance"/></p>
 			<input type="hidden" name="stock_id" value=""/>
 			<input type="submit" value="Save" name="save"/>
 			<input type="submit" value="Update" name="update"/><br/>
@@ -195,11 +195,32 @@ if(isset($_POST["update"])){
 		  method: "GET",
 		  url: "http://localhost/stock1/controller/stock_ctl.php",
 		  data: { category_id: $('#category').val()},
-			dataType: "json"
+			dataType: "html"
 		})
-  	.done(function( msg ) {
-    	console.log(msg);
+  	.done(function( result ) {
+    	$('#sous_category').html(result);
   	});
+	});
+
+	$("#sous_category").change(function(){
+		$.ajax({
+		  method: "GET",
+		  url: "http://localhost/stock1/controller/stock_ctl.php",
+		  data: { category_id: $('#category').val(), sub_category_id: $('#sous_category').val()},
+			dataType: "html"
+		})
+  	.done(function( result ) {
+			result = result == '' ? 0 : result;
+    	$('#initial_balance').val(result);
+			$('#balance').val(result);
+  	});
+	});
+
+	$("#stock_in").change(function(){
+		var initial_balance = $('#initial_balance').val();
+		var stock_in = $(this).val();
+		var total = parseInt(initial_balance) + parseInt(stock_in);
+		$("#balance").val(total);
 	});
 </script>
 </html>

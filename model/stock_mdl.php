@@ -1,6 +1,6 @@
 <?php
     /**
-     * 
+     *
      */
     //include_once (dirname(__DIR__)."/model/personne_mdl.php");
     include_once (dirname(__DIR__)."/dao/daostock.php");
@@ -16,7 +16,7 @@
         protected $stock_in;
         protected $stock_out;
         protected $balance;
-		
+
         function __construct($category_id= NULL,$sous_category_id= NULL,$initial_balance= NULL,$stock_in= NULL,$stock_out= NULL,$balance= NULL) {
             $this->category_id=$category_id;
             $this->sous_category_id=$sous_category_id;
@@ -86,11 +86,11 @@
 			$request=$dao->generateInsertquery($table,$param);
 			$dbconnect=new Connection();
 			$connection=$dbconnect->connectiondb();
-			$connection->exec($request);	
-			
+			$connection->exec($request);
+
 		}
-		
-		
+
+
 		public function afficherAllstock_mdl(){
 			$table_stock="stock";
 			$table_sous_category="sous_category";
@@ -102,7 +102,16 @@
 			$result=$connection->query($requette);
 			return $result;
 		}
-		
+
+    public function get_sum_initial_balance($category_id, $sub_category_id) {
+			$dao=new Daostock();
+			$requette=$dao->get_sum_initial_balance($category_id, $sub_category_id);
+			$dbconnect=new Connection();
+			$connection=$dbconnect->connectiondb();
+			$result=$connection->query($requette);
+			return $result;
     }
-    
+
+    }
+
 ?>

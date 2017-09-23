@@ -35,16 +35,32 @@
 			$sous_category_mdl=new Sous_category_mdl();
 			$sous_category = $sous_category_mdl->get_sub_categories($get['category_id']);
 			$sous_category_temp = array();
+			$html = "<select name='sous_category_id' type='text' value='' id='sous_category'>
+								<option value='0'>Select...</option>";
 			while($reponse = $sous_category->fetch()){
-				array_push($sous_category_temp,$reponse);
-
+				$html .= "<option value=".$reponse[0].">".$reponse[1]."</option>";
 			}
-			echo json_encode($sous_category_temp);
+			$html .= "</select>";
+			echo $html;
+		}
+
+		public function get_initial_balance($get) {
+			$stock_mdl=new Stock_mdl();
+			$sum_initial_balance = $stock_mdl->get_sum_initial_balance($get['category_id'], $get['sub_category_id']);
+			while($reponse = $sum_initial_balance->fetch()){
+				$html = $reponse['initial_balance'];
+			}
+			echo $html;
 		}
 
 	}
-	if(isset($_GET['category_id'])) {
+	if(isset($_GET['category_id']) && !isset($_GET['sub_category_id'])) {
 		$stock = new Stock_ctl();
 		$stock->get_sub_category($_GET);
+	}
+
+	if(isset($_GET['sub_category_id'])) {
+		$stock = new Stock_ctl();
+		$stock->get_initial_balance($_GET);
 	}
 ?>
