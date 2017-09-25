@@ -59,7 +59,7 @@ if(isset($_POST["update"])){
 
     <link href="C:/wamp/www/travail/css/bootstrap.min.css" rel="stylesheet">
     <link href="C:/wamp/www/travail/css/bootstrap-responsive.min.css" rel="stylesheet">
-
+		<script src="js/jquery-3.2.1.min.js"></script>
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
     <link href="C:/wamp/www/travail/css/font-awesome.css" rel="stylesheet">
 
@@ -128,7 +128,7 @@ if(isset($_POST["update"])){
 	<div>
 		<form action="stock.php" method="post">
 		     <p><label>Category</label>
-		    	<select name="category_id" type="text" value=" " >
+		    	<select name="category_id" type="text" value=" " id="category">
 					<option value="<?php echo 0;?>">
 						select...
 					</option>
@@ -140,7 +140,7 @@ if(isset($_POST["update"])){
                 </p>
 
 		    <p><label>Sub-category</label>
-		    	<select name="sous_category_id" type="text" value=" " >
+		    	<select name="sous_category_id" type="text" value=" " id="sous_category">
 					<option value="<?php echo 0;?>">
 						select...
 					</option>
@@ -185,5 +185,17 @@ if(isset($_POST["update"])){
 </div> <!-- /main -->
   <?php include("footer.php");?>
 </body>
-
+<script>
+	$("#category").change(function(){
+		$.ajax({
+			method: "GET",
+			url: "http://localhost/stock1/controller/stock_ctl.php",
+			data: { category_id: $('#category').val()},
+			dataType: "html"
+		})
+		.done(function( result ) {
+			$('#sous_category').html(result);
+		});
+	});
+</script>
 </html>

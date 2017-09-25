@@ -59,7 +59,7 @@ if(isset($_POST["update"])){
 
     <link href="C:/wamp/www/travail/css/bootstrap.min.css" rel="stylesheet">
     <link href="C:/wamp/www/travail/css/bootstrap-responsive.min.css" rel="stylesheet">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="js/jquery-3.2.1.min.js"></script>
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
     <link href="C:/wamp/www/travail/css/font-awesome.css" rel="stylesheet">
 
