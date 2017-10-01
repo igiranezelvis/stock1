@@ -8,10 +8,17 @@
 			$stock_mdl->setsous_category_id($post['sous_category_id']);
 			$stock_mdl->setinitial_balance($post['initial_balance']);
 			$stock_mdl->setstock_in($post['stock_in']);
-			//$stock_mdl->setstock_out($post['stock_out']);
 			$stock_mdl->setbalance($post['balance']);
 			$stock_mdl->insertstock($stock_mdl);
 		}
+		public function insertstock_out($post){
+			$stock_mdl=new Stock_mdl();
+			$stock_mdl->setcategory_id($post['category_id']);
+			$stock_mdl->setsous_category_id($post['sous_category_id']);
+			$stock_mdl->setstock_out($post['stock_out']);
+			$stock_mdl->insertstock($stock_mdl);
+		}
+
 		public function afficherAllstock(){
 			$stock_mdl=new Stock_mdl();
 			$Allstock=$stock_mdl->afficherAllstock_mdl();

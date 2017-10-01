@@ -89,7 +89,16 @@
 			$connection->exec($request);
 
 		}
+          public function insertstock_out($object){
+			$table="stock";
+			$param=array("category_id"=>$object->getcategory_id(),"sous_category_id"=>$object->getsous_category_id(),"stock_out"=>$object->getstock_out());
+			$dao=new Dao();
+			$request=$dao->generateInsertquery($table,$param);
+			$dbconnect=new Connection();
+			$connection=$dbconnect->connectiondb();
+			$connection->exec($request);
 
+		}
 
 		public function afficherAllstock_mdl(){
 			$table_stock="stock";

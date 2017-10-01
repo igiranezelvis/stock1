@@ -15,7 +15,8 @@ session_start();
 		// echo "<pre>";
 		// print_r($_POST);
 		// exit;
-		$stock->Insertstock($_POST);
+		
+		$stock->insertstock_out($_POST);
 	}
 	if(isset($_GET['deletestock'])){
 		// echo "<pre>";

@@ -6,8 +6,12 @@ session_start();
 	include_once (dirname(__DIR__)."/controller/stock_ctl.php");
 	$stock=new Stock_ctl();
 	if(isset($_POST["save"])){
-
+    if(isset($_POST["stock"])){
 		$stock->Insertstock($_POST);
+		}
+		else{
+		$stock->insertstock_out($_POST);
+	}
 	}
 	if(isset($_GET['deletestock'])){
 
