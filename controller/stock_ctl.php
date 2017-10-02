@@ -16,7 +16,7 @@
 			$stock_mdl->setcategory_id($post['category_id']);
 			$stock_mdl->setsous_category_id($post['sous_category_id']);
 			$stock_mdl->setstock_out($post['stock_out']);
-			$stock_mdl->insertstock($stock_mdl);
+			$stock_mdl->insertstock_out($stock_mdl);
 		}
 
 		public function afficherAllstock(){

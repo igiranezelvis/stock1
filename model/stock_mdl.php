@@ -83,22 +83,51 @@
 			$table="stock";
 			$param=array("category_id"=>$object->getcategory_id(),"sous_category_id"=>$object->getsous_category_id(),"initial_balance"=>$object->getinitial_balance(),"stock_in"=>$object->getstock_in(),"stock_out"=>$object->getstock_out(),"balance"=>$object->getbalance());
 			$dao=new Dao();
+      $dao_stock = new Daostock();
+      $is_total_sql = $dao_stock->is_soub_category_exists($object->getcategory_id(), $object->getsous_category_id());
 			$request=$dao->generateInsertquery($table,$param);
 			$dbconnect=new Connection();
 			$connection=$dbconnect->connectiondb();
+      $connection->exec($request);
+      $result=$connection->query($is_total_sql);
+      $total_sql = $dao_stock->get_sum_initial_balance($object->getcategory_id(), $object->getsous_category_id());
+      $total = $connection->query($total_sql)->fetch(PDO::FETCH_ASSOC);
+      if($result->rowCount() == 0){
+        $this->insert_total_stock($object->getcategory_id(), $object->getsous_category_id(), $total['initial_balance']);
+      }elseif($result->rowCount() > 0) {
+        $this->update_total_stock($object->getcategory_id(), $object->getsous_category_id(), $object->getstock_in(), 'in');
+      }
+		}
+    public function insertstock_out($object){
+			$table="stock";
+			$param=array("category_id"=>$object->getcategory_id(),"sous_category_id"=>$object->getsous_category_id(),"stock_out"=>$object->getstock_out());
+			$dao=new Dao();
+      $dao_stock = new Daostock();
+      $is_total_sql = $dao_stock->is_soub_category_exists($object->getcategory_id(), $object->getsous_category_id());
+			$request=$dao->generateInsertquery($table,$param);
+			$dbconnect=new Connection();
+			$connection=$dbconnect->connectiondb();
+      $result=$connection->query($is_total_sql);
+      $total_sql = $dao_stock->get_sum_initial_balance($object->getcategory_id(), $object->getsous_category_id());
+      $total = $connection->query($total_sql)->fetch(PDO::FETCH_ASSOC);
+      if($result->rowCount() == 0){
+        $this->insert_total_stock($object->getcategory_id(), $object->getsous_category_id(), $total['initial_balance']);
+      }elseif($result->rowCount() > 0) {
+        $this->update_total_stock($object->getcategory_id(), $object->getsous_category_id(), $object->getstock_out(), 'out');
+      }
 			$connection->exec($request);
 
 		}
-          public function insertstock_out($object){
-			$table="stock";
-			$param=array("category_id"=>$object->getcategory_id(),"sous_category_id"=>$object->getsous_category_id(),"stock_out"=>$object->getstock_out());
+
+    public function insert_total_stock($category_id, $sous_category_id, $total) {
+      $table="total_stock";
+			$param=array("category_id"=>$category_id,"sous_category_id"=>$sous_category_id,"total"=>$total);
 			$dao=new Dao();
 			$request=$dao->generateInsertquery($table,$param);
 			$dbconnect=new Connection();
 			$connection=$dbconnect->connectiondb();
 			$connection->exec($request);
-
-		}
+    }
 
 		public function afficherAllstock_mdl(){
 			$table_stock="stock";
@@ -111,6 +140,21 @@
 			$result=$connection->query($requette);
 			return $result;
 		}
+    public function update_total_stock($category_id, $sub_category_id, $stock_in, $operation) {
+      $dao_stock = new Daostock();
+			$requette=$dao_stock->update_total_stock($category_id, $sub_category_id, $stock_in, $operation);
+			$dbconnect=new Connection();
+			$connection=$dbconnect->connectiondb();
+			$connection->exec($requette);
+    }
+    public function is_soub_category_exists($category_id, $sub_category_id) {
+			$dao=new Daostock();
+			$requette=$dao->is_soub_category_exists($category_id, $sub_category_id);
+			$dbconnect=new Connection();
+			$connection=$dbconnect->connectiondb();
+			$result=$connection->query($requette);
+			return $result;
+    }
 
     public function get_sum_initial_balance($category_id, $sub_category_id) {
 			$dao=new Daostock();

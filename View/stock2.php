@@ -16,6 +16,7 @@ session_start();
 		// print_r($_POST);
 		// exit;
 		$stock->Insertstock($_POST);
+		header("Location:http://localhost/stock1/View/stock.php");
 	}
 	if(isset($_GET['deletestock'])){
 		// echo "<pre>";
@@ -126,7 +127,7 @@ if(isset($_POST["update"])){
 						<br>
 
 	<div>
-		<form action="stock.php" method="post">
+		<form action="" method="post">
 		    <p><label>Category</label>
 		    	<select name="category_id" type="text" value=" " id="category" >
 					<option value="<?php echo 0;?>">
