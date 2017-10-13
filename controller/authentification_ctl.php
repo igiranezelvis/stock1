@@ -32,12 +32,12 @@
 				            if($checkIfUserExist[0]->getprofil() == "admin"){
 							$_SESSION["aut"] = "admin";
 							$_SESSION['connected'] = TRUE;
-							header("Location:http://localhost/stock1/View/category2.php");
+							header("Location:http://localhost/stock1/View/users2.php");
 						    }
-				            if($checkIfUserExist[0]->getGroup() == "avocat"){
-							$_SESSION["aut"] = "avocat";
+				            if($checkIfUserExist[0]->getprofil() == "user"){
+							$_SESSION["aut"] = "user";
 							$_SESSION['connected'] = TRUE;
-							header("Location:http://localhost/stock1/View/dossier_frm.php");
+							header("Location:http://localhost/stock1/View/category2.php");
 						    }
 
 

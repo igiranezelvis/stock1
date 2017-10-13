@@ -3,27 +3,27 @@ session_start();
 	if(!isset($_SESSION['connected']) || $_SESSION['connected'] != TRUE) {
 		header("Location:http://localhost/stock1/View/Authentification.php");
 	}
-	include_once (dirname(__DIR__)."/controller/category_ctl.php");
-	$category=new Category_ctl();
+	include_once (dirname(__DIR__)."/controller/user_ctl.php");
+	$user=new User_ctl();
 	if(isset($_POST["save"])){
 		// echo "<pre>";
 		// print_r($_POST);
 		// exit;
-		$category->Insertcategory($_POST);
+		$user->Insertuser($_POST);
 	}
 	
-	$Allcategory=$category->afficherAllcategory();
+	$Alluser=$user->afficherAlluser();
 	// echo "<pre>";
 		// print_r($_POST);
 		// exit;
-	include_once (dirname(__DIR__)."/controller/category_ctl.php");
+	include_once (dirname(__DIR__)."/controller/user_ctl.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <title>category</title>
+    <title>users</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -73,23 +73,23 @@ function checkDescription(){
 <div class="subnavbar">
   <div class="subnavbar-inner">
     <div class="container">
-      <ul class="mainnav">
+     <ul class="mainnav">
+     	<li><a href="users2.php"><i class="icon-user"></i><span>Users</span> </a> </li>
 	    <li><a href="category2.php"><i class="icon-edit"></i><span>Category</span> </a> </li>
 	    <li><a href="sous_category2.php"><i class="icon-folder-open"></i><span>sub-category</span> </a> </li>
-	    <li class="dropdown"><a  href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-long-arrow-down"></i><span>Stock</span> <b class="caret"></b></a>
+	    <li class="dropdown"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-long-arrow-down"></i><span>Stock</span> <b class="caret"></b></a>
 	   <ul class="dropdown-menu">
 	   	    <li><a href="stock.php">Stock </a></li>
             <li><a href="stock2.php">Stock In</a></li>
             <li><a href="stock3.php">Stock Out</a></li>
-            <li><a href="total_stock.php"> Total Stock</a></li>
-            <li><a href="stock_report.php">Stock report</a></li>
+
           </ul>
         </li>
       </ul>
+        </li>
+      </ul>
     </div>
-    <!-- /container -->
   </div>
-  <!-- /subnavbar-inner -->
 </div>
   <div class="main-inner">
 
@@ -103,7 +103,7 @@ function checkDescription(){
 
 	      			<div class="widget-header">
 	      				<i class="icon-list-ol"></i>
-	      				<h3>categories</h3>
+	      				<h3>users</h3>
 	  				</div> <!-- /widget-header -->
 
 					<div class="widget-content">
@@ -113,7 +113,7 @@ function checkDescription(){
 						<div class="tabbable">
 						<ul class="nav nav-tabs">
 						 <li>
-						    <a href="#formcontrols" data-toggle="tab">Category Entry Form</a>
+						    <a href="#formcontrols" data-toggle="tab">Users Entry Form</a>
 						  </li>
 
 						</ul>
@@ -121,11 +121,15 @@ function checkDescription(){
 						<br>
 
 	<div>
-		<form action="category2.php" name="categoryForm" onsubmit="return validatecategory()" method="post">
-		    <p><label>Description</label><input type="text" name="description" value="<?php if(isset($_GET['updatecategory']) ){if($description!=null){echo $description; }else echo ""; }?>"/></p>
-			<input type="hidden" name="category_id" value="<?php if(isset($_GET['updatecategory_id']) ){if($category_id!=null){echo $category_id; }else echo ""; }?>"/>
+		<form action="users2.php" method="post">
+		    <p><label>Name</label><input type="text" name="name" value="" id="name" /></p>
+		    <p><label>Surname</label><input type="text" name="surname" value="" id="surname" /></p>
+		    <p><label>Username</label><input type="text" name="username" value="" id="username" /></p>
+		    <p><label>Password</label><input type="text" name="password" value="" id="password" /></p>
+		    <p><label>Profil</label><input type="text" name="profil" value="" id="profil" /></p>
+			<input type="hidden" name="user_id" value=""/>
 			<input type="submit" value="Save" name="save"/>
-			
+			<input type="submit" value="Update" name="update"/>
 		</form>
 		<br>
 		<br>

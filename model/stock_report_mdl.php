@@ -3,35 +3,35 @@
      *
      */
     //include_once (dirname(__DIR__)."/model/personne_mdl.php");
-    include_once (dirname(__DIR__)."/dao/daostock.php");
+    include_once (dirname(__DIR__)."/dao/daostock_report.php");
     include_once (dirname(__DIR__)."/dao/dao.php");
 	include_once (dirname(__DIR__)."/dao/connection.php");
-    class Stock_mdl{
-    	protected $stock_id;
+    class Stock_report_mdl{
+    	protected $stock_report_id;
         protected $category_id;
         protected $category_description;
         protected $sous_category_id;
         protected $sous_category_description;
         protected $initial_balance;
         protected $date;
-        protected $stock_in;
-        protected $stock_out;
-        protected $balance;
+        protected $total_stock_in;
+        protected $total_stock_out;
+        protected $total_balance;
         protected $total;
 
-        function __construct($category_id= NULL,$sous_category_id= NULL,$initial_balance= NULL,$date= NULL,$stock_in= NULL,$stock_out= NULL,$balance= NULL,$total= NULL) {
+        function __construct($category_id= NULL,$sous_category_id= NULL,$initial_balance= NULL,$date= NULL,$total_stock_in= NULL,$total_stock_out= NULL,$total_balance= NULL,$total= NULL) {
             $this->category_id=$category_id;
             $this->sous_category_id=$sous_category_id;
             $this->initial_balance=$initial_balance;
             $this->date=$date;
-            $this->stock_in=$stock_in;
-            $this->stock_out=$stock_out;
-            $this->balance=$balance;
-           $this->total=$total;
+            $this->total_stock_in=$total_stock_in;
+            $this->total_stock_out=$total_stock_out;
+            $this->total_balance=$total_balance;
+            $this->total=$total;
            }  
 
-		public function getstock_id(){
-			return $this->stock_id;
+		public function getstock_report_id(){
+			return $this->stock_report_id;
 		}
 		public function getcategory_id(){
 			return $this->category_id;
@@ -51,20 +51,20 @@
 		public function getdate(){
 			return $this->date;
 		}
-		public function getstock_in(){
-			return $this->stock_in;
+		public function gettotal_stock_in(){
+			return $this->total_stock_in;
 		}
-		public function getstock_out(){
-			return $this->stock_out;
+		public function gettotal_stock_out(){
+			return $this->total_stock_out;
 		}
-		public function getbalance(){
-			return $this->balance;
+		public function gettotal_balance(){
+			return $this->total_balance;
 		}
 		public function gettotal(){
 			return $this->total;
 		}
-		public function setstock_id($stock_id){
-			$this->stock_id=$stock_id;
+		public function setstock_report_id($stock_report_id){
+			$this->stock_report_id=$stock_report_id;
 		}
 		public function setcategory_id($category_id){
 			$this->category_id=$category_id;
@@ -84,54 +84,28 @@
 		public function setdate($date){
 			$this->date=$date;
 		}
-		public function setstock_in($stock_in){
-			$this->stock_in=$stock_in;
+		public function settotal_stock_in($total_stock_in){
+			$this->total_stock_in=$total_stock_in;
 		}
-		public function setstock_out($stock_out){
-			$this->stock_out=$stock_out;
+		public function settotal_stock_out($total_stock_out){
+			$this->total_stock_out=$total_stock_out;
 		}
-		public function setbalance($balance){
-			$this->balance=$balance;
+		public function settotal_balance($total_balance){
+			$this->total_balance=$total_balance;
 		}
 		public function settotal($total){
 			$this->total=$total;
 		}
-	  public function insertstock($object){
-			$table="stock";
-			$param=array("category_id"=>$object->getcategory_id(),"sous_category_id"=>$object->getsous_category_id(),"initial_balance"=>$object->getinitial_balance(),"date"=>$object->getdate(),"stock_in"=>$object->getstock_in(),"stock_out"=>$object->getstock_out(),"balance"=>$object->getbalance());
+		
+    public function insertstock_report($object){
+			$table="stock_report";
+			$param=array("category_id"=>$object->getcategory_id(),"sous_category_id"=>$object->getsous_category_id(),"initial_balance"=>$object->getinitial_balance(),"date"=>$object->getdate(),"total_stock_out"=>$object->gettotal_stock_out(),"total_stock_in"=>$object->gettotal_stock_in(),"total_balance"=>$object->gettotal_balance());
 			$dao=new Dao();
-            $dao_stock = new Daostock();
+            $dao_stock = new Daostock_report();
             $is_total_sql = $dao_stock->is_soub_category_exists($object->getcategory_id(), $object->getsous_category_id());
 			$request=$dao->generateInsertquery($table,$param);
 			$dbconnect=new Connection();
 			$connection=$dbconnect->connectiondb();
-            $connection->exec($request);
-            $result=$connection->query($is_total_sql);
-            $total_sql = $dao_stock->get_sum_initial_balance($object->getcategory_id(), $object->getsous_category_id());
-            $total = $connection->query($total_sql)->fetch(PDO::FETCH_ASSOC);
-            if($result->rowCount() == 0){
-            $this->insert_total_stock($object->getcategory_id(), $object->getsous_category_id(), $total['initial_balance']);
-            }elseif($result->rowCount() > 0) {
-            $this->update_total_stock($object->getcategory_id(), $object->getsous_category_id(), $object->getstock_in(), 'in');
-             }
-		    }
-    public function insertstock_out($object){
-			$table="stock";
-			$param=array("category_id"=>$object->getcategory_id(),"sous_category_id"=>$object->getsous_category_id(),"initial_balance"=>$object->getinitial_balance(),"date"=>$object->getdate(),"stock_out"=>$object->getstock_out(),"balance"=>$object->getbalance());
-			$dao=new Dao();
-            $dao_stock = new Daostock();
-            $is_total_sql = $dao_stock->is_soub_category_exists($object->getcategory_id(), $object->getsous_category_id());
-			$request=$dao->generateInsertquery($table,$param);
-			$dbconnect=new Connection();
-			$connection=$dbconnect->connectiondb();
-            $result=$connection->query($is_total_sql);
-            $total_sql = $dao_stock->get_sum_initial_balance($object->getcategory_id(), $object->getsous_category_id());
-            $total = $connection->query($total_sql)->fetch(PDO::FETCH_ASSOC);
-            if($result->rowCount() == 0){
-            $this->insert_total_stock($object->getcategory_id(), $object->getsous_category_id(), $total['initial_balance']);
-            }elseif($result->rowCount() > 0) {
-            $this->update_total_stock($object->getcategory_id(), $object->getsous_category_id(), $object->getstock_out(), 'out');
-            }
 			$connection->exec($request);
 
 		     }
@@ -146,12 +120,12 @@
 			$connection->exec($request);
     }
 
-		public function afficherAllstock_mdl(){
-			$table_stock="stock";
+		public function afficherAllstock_report_mdl(){
+			$table_stock_report="stock_report";
 			$table_sous_category="sous_category";
 			$table_category="category";
-			$dao=new Daostock();
-			$requette=$dao->genererAffichageAllstock();
+			$dao=new Daostock_report();
+			$requette=$dao->genererAffichageAllstock_report();
 			$dbconnect=new Connection();
 			$connection=$dbconnect->connectiondb();
 			$result=$connection->query($requette);
@@ -188,22 +162,6 @@
     public function get_sum_initial_balance($category_id, $sub_category_id) {
 			$dao=new Daostock();
 			$requette=$dao->get_sum_initial_balance($category_id, $sub_category_id);
-			$dbconnect=new Connection();
-			$connection=$dbconnect->connectiondb();
-			$result=$connection->query($requette);
-			return $result;
-    }
-    public function get_sum_stock_in($category_id, $sub_category_id) {
-			$dao=new Daostock();
-			$requette=$dao->get_sum_stock_in($category_id, $sub_category_id);
-			$dbconnect=new Connection();
-			$connection=$dbconnect->connectiondb();
-			$result=$connection->query($requette);
-			return $result;
-    }
-      public function get_sum_stock_out($category_id, $sub_category_id) {
-			$dao=new Daostock();
-			$requette=$dao->get_sum_stock_out($category_id, $sub_category_id);
 			$dbconnect=new Connection();
 			$connection=$dbconnect->connectiondb();
 			$result=$connection->query($requette);

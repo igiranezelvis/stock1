@@ -1,6 +1,7 @@
 <?php
     
     include_once (dirname(__DIR__)."/dao/dao.php");
+     include_once (dirname(__DIR__)."/dao/daouser.php");
 	 include_once (dirname(__DIR__)."/dao/connection.php");
     class User_mdl{
     	protected $user_id;
@@ -70,13 +71,22 @@
 		
 		public function insertuser($object){
 			$table="users";
-			$param=array("name"=>$object->getname(),"surname"=>$object->getsurname(),"username"=>$object->getusername(),"password"=>$object->getpassword());
+			$param=array("name"=>$object->getname(),"surname"=>$object->getsurname(),"username"=>$object->getusername(),"password"=>$object->getpassword(),"profil"=>$object->getprofil());
 			$dao=new Dao();
 			$request=$dao->generateInsertquery($table,$param);
 			$dbconnect=new Connection();
 			$connection=$dbconnect->connectiondb();
 			$connection->exec($request);	
 			
+		}
+		public function afficherAlluser_mdl(){
+			$table_users="users";
+			$dao=new Daouser();
+			$requette=$dao->genererAffichageAlluser($table_users,$table_users);
+			$dbconnect=new Connection();
+			$connection=$dbconnect->connectiondb();
+			$result=$connection->query($requette);
+			return $result;
 		}
 		
 		public function generatewherequery($table, $array_condition) {

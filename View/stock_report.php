@@ -3,28 +3,28 @@ session_start();
 	if(!isset($_SESSION['connected']) || $_SESSION['connected'] != TRUE) {
 		header("Location:http://localhost/stock1/View/Authentification.php");
 	}
-	include_once (dirname(__DIR__)."/controller/stock_ctl.php");
+	include_once (dirname(__DIR__)."/controller/stock_report_ctl.php");
 	include_once (dirname(__DIR__)."/controller/category_ctl.php");
 	include_once (dirname(__DIR__)."/controller/sous_category_ctl.php");
 	$category = new Category_ctl();
 	$all_categorys = $category->afficherAllcategory();
 	$sous_category = new Sous_category_ctl();
 	$all_sous_categorys = $sous_category->afficherAllsous_category();
-	$stock=new Stock_ctl();
+	$stock_report=new Stock_report_ctl();
 	if(isset($_POST["save"])){
 		// echo "<pre>";
 		// print_r($_POST);
 		// exit;
-		$stock->insertstock($_POST);
-		header("Location:http://localhost/stock1/View/stock.php");
+		$stock_report->insertstock_report($_POST);
+		header("Location:http://localhost/stock1/View/stock_report.php");
 	}
 	
-	$Allstock=$stock->afficherAllstock();
+	$Allstock_report=$stock_report->afficherAllstock_report();
 	// echo "<pre>";
 		// print_r($_POST);
 		// exit;
 
-	include_once (dirname(__DIR__)."/controller/stock_ctl.php");
+	include_once (dirname(__DIR__)."/controller/stock_report_ctl.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,7 +33,7 @@ session_start();
     <meta charset="utf-8">
     <title>Stock </title>
 
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+   	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 	<link href="css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css" />
@@ -50,13 +50,21 @@ session_start();
 	<link href="css/style.css" rel="stylesheet" type="text/css">
 	<link href="css/pages/signin.css" rel="stylesheet" type="text/css">
 
-
 	<script src="js/jquery-1.7.2.min.js"></script>
 	<script src="js/jquery-ui.js"></script>
 
 	<script src="js/bootstrap.js"></script>
 	<script src="js/base.js"></script>
+	<script>
+	$( "#date" ).datepicker({dateFormat: "dd-mm-yy"});
 
+
+</script>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
 
   </head>
 
@@ -95,7 +103,7 @@ session_start();
 
 	      			<div class="widget-header">
 	      				<i class="icon-list"></i>
-	      				<h3> Stock In</h3>
+	      				<h3> Stock Report</h3>
 	  				</div> <!-- /widget-header -->
 
 					<div class="widget-content">
@@ -113,9 +121,9 @@ session_start();
 						<br>
 
 	<div>
-		<form action="stock.php" method="post">
-		    <p><label>Category</label>
-		    	<select name="category_id" type="text" value=" " id="category" >
+		<form action="stock_report.php" method="post">
+		     <p><label>Category</label>
+		    	<select name="category_id" type="text" value=" " id="category">
 					<option value="<?php echo 0;?>">
 						select...
 					</option>
@@ -132,23 +140,88 @@ session_start();
 						select...
 					</option>
 				<?php foreach ($all_sous_categorys as $key => $value) {?>
-					<option value="<?php echo $value->getsous_category_id();?>">
+					<option value="<?php echo $value->getcategory_id();?>">
 						<?php echo $value->getdescription();?>
 					</option>
 				<?php }?></select></p>
-
-		    <p><label>Initial Balance</label><input type="text" name="initial_balance" readonly value=" " id="initial_balance"/></p>
-		     <p><label>Date</label><input type="text" id = "date" name="date" value=""/></p>
-		    <p><label>Stock In</label><input type="text" name="stock_in" value=" " id="stock_in"/></p>
-		    <p><label>Balance</label><input type="text" readonly name="balance" value=" " id="balance"/></p>
-			<input type="hidden" name="stock_id" value=""/>
+			<p><label>Initial balance</label><input type="text" id ="initial_balance" name="initial_balance" value=" "/></p>
+			<p><label>Date</label><input type="text" id ="date" name="date" value=" "/></p>
+			<p><label>Total Stock In</label><input type="text" id ="total_stock_in" name="total_stock_in" value=" "/></p>
+			<p><label>Total Stock Out</label><input type="text" id ="total_stock_out" name="total_stock_out" value=" "/></p>
+			<p><label>Total Balance</label><input type="text" id ="total_balance" name="total_balance" value=" "/></p>
+			<input type="hidden" name="stock_report_id" value=""/>
 			<input type="submit" value="Save" name="save"/>
-			<br/>
+		
 		</form>
-		<br>
-		<br>
-		<br>
-		<br>
+			<div class="tabbable">
+
+
+
+						<br>
+			<form>
+			<fieldset>
+
+
+		<div class="widget widget-table action-table">
+            <div class="widget-header"> <i class="icon-th-list"></i>
+              <h3>stock report</h3>
+            </div>
+            <!-- /widget-header -->
+            <div class="widget-content">
+			 <?php if(!empty($Allstock_report)){?>
+              <table class="table table-striped table-bordered">
+                <thead>
+                  <tr>
+                    <th> Category </th>
+                    <th> Sub_category</th>
+                    <th> Initial balance </th>
+                     <th> Date </th>
+                    <th>Total Stock In </th>
+                    <th>Total Stock Out</th>
+                    <th>Total Balance </th>
+					
+                    <th class="td-actions"> </th>
+                  </tr>
+                </thead>
+                <tbody>
+					<?php foreach($Allstock_report as $key=>$data){?>
+                  <tr>
+                    <td ><?php echo $data->getcategory_description();?></td>
+                    <td ><?php echo $data->getsous_category_description();?></td>
+                    <td ><?php echo $data->getinitial_balance();?></td>
+                    <td ><?php echo $data->getdate();?></td>
+                    <td ><?php echo $data->gettotal_stock_in();?></td>
+                    <td ><?php echo $data->gettotal_stock_out();?></td>
+                    <td ><?php echo $data->gettotal_balance();?></td>
+                    
+                  </tr>
+
+                <?php }?>
+                </tbody>
+              </table>
+			  <?php }?>
+            </div>
+            <!-- /widget-content -->
+          </div>
+
+
+	  <center><br/>
+
+
+
+
+
+
+											<br />
+
+
+										</fieldset>
+					</form>
+
+
+
+						 </div>
+		
 	</div>
 	  </div>
 
@@ -174,6 +247,10 @@ session_start();
 	</div> <!-- /main-inner -->
 
 </div> <!-- /main -->
+
+ 
+
+
 <script>
 	$( "#date" ).datepicker({dateFormat: "dd-mm-yy"});
 
@@ -208,14 +285,12 @@ session_start();
   	});
 	});
 
-	$("#stock_in").change(function(){
+	$("#stock_out").change(function(){
 		var initial_balance = $('#initial_balance').val();
-		var stock_in = $(this).val();
-		var total = parseInt(initial_balance) + parseInt(stock_in);
+		var stock_out = $(this).val();
+		var total = parseInt(initial_balance) - parseInt(stock_out);
 		$("#balance").val(total);
 	});
-
-
+	
 </script>
-
 </html>

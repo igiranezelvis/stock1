@@ -32,20 +32,7 @@
 			$sql="SELECT * FROM ".$table."";
 			return $sql;
 		}
-		public function generateDeletequerycategory($table,$category_id){
-			$sql="DELETE FROM ".$table." WHERE category_id=".$category_id;
-			return $sql;
-		}
-		public function generateDeletequerysous_category($table,$sous_category_id){
-			$sql="DELETE FROM ".$table." WHERE sous_category_id=".$sous_category_id;
-			return $sql;
-		}
-
-		public function generateUpdatequerycategory($table,$param){
-			$sql="UPDATE ".$table." SET description='".$param['description']."'  WHERE category_id=".$param['category_id']."";
-
-			return $sql;
-		}
+		
 		public function generatewherequery($table, $array_condition) {
 			$sql = "SELECT * FROM ".$table." WHERE ";
 			$i = 0;

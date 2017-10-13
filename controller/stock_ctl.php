@@ -2,11 +2,12 @@
 	include_once (dirname(__DIR__)."/model/stock_mdl.php");
 	include_once (dirname(__DIR__)."/model/sous_category_mdl.php");
 	class Stock_ctl{
-		public function Insertstock($post){
+			public function insertstock($post){
 			$stock_mdl=new Stock_mdl();
 			$stock_mdl->setcategory_id($post['category_id']);
 			$stock_mdl->setsous_category_id($post['sous_category_id']);
 			$stock_mdl->setinitial_balance($post['initial_balance']);
+			$stock_mdl->setdate($post['date']);
 			$stock_mdl->setstock_in($post['stock_in']);
 			$stock_mdl->setbalance($post['balance']);
 			$stock_mdl->insertstock($stock_mdl);
@@ -15,7 +16,10 @@
 			$stock_mdl=new Stock_mdl();
 			$stock_mdl->setcategory_id($post['category_id']);
 			$stock_mdl->setsous_category_id($post['sous_category_id']);
+			$stock_mdl->setinitial_balance($post['initial_balance']);
+			$stock_mdl->setdate($post['date']);
 			$stock_mdl->setstock_out($post['stock_out']);
+			$stock_mdl->setbalance($post['balance']);
 			$stock_mdl->insertstock_out($stock_mdl);
 		}
 
@@ -28,6 +32,7 @@
 				$stock->setcategory_description($reponse['category_description']);
 				$stock->setsous_category_description($reponse['sous_category_description']);
 				$stock->setinitial_balance($reponse['initial_balance']);
+				$stock->setdate($reponse['date']);
 				$stock->setstock_in($reponse['stock_in']);
 				$stock->setstock_out($reponse['stock_out']);
 				$stock->setbalance($reponse['balance']);
@@ -35,6 +40,21 @@
 
 			}
 			return $allstock;
+
+	    }
+        public function afficherAlltotal_stock(){
+			$total_stock_mdl=new Stock_mdl();
+			$Alltotal_stock=$total_stock_mdl->afficherAlltotal_stock_mdl();
+			$alltotal_stock=array();
+			while($reponse=$Alltotal_stock->fetch()){
+				$total_stock=new Stock_mdl();
+				$total_stock->setcategory_description($reponse['category_description']);
+				$total_stock->setsous_category_description($reponse['sous_category_description']);
+				$total_stock->settotal($reponse['total']);
+				array_push($alltotal_stock,$total_stock);
+
+			}
+			return $alltotal_stock;
 
 	    }
 

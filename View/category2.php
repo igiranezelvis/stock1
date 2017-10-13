@@ -11,24 +11,7 @@ session_start();
 		// exit;
 		$category->Insertcategory($_POST);
 	}
-	if(isset($_GET['deletecategory']) ){
-
-		$category->Deletecategory($_GET);
-	}
-	if(isset($_POST["update"])){
-
-		$category->updatecategory($_POST);
-	}
-	if(isset($_GET['updatecategory']) ){
-		$infotoupdate=$category->getupdateinfo($_GET['updatecategory']);
-		foreach($infotoupdate as $infotoupdatekey=>$infotoupdate_val){
-			$category_id=$infotoupdate_val->getcategory_id();
-			$description=$infotoupdate_val->getdescription();
-
-
-
-		}
-	}
+	
 	$Allcategory=$category->afficherAllcategory();
 	// echo "<pre>";
 		// print_r($_POST);
@@ -67,7 +50,7 @@ session_start();
 <div class="subnavbar">
   <div class="subnavbar-inner">
     <div class="container">
-     <ul class="mainnav">
+      <ul class="mainnav">
 	    <li><a href="category2.php"><i class="icon-edit"></i><span>Category</span> </a> </li>
 	    <li><a href="sous_category2.php"><i class="icon-folder-open"></i><span>sub-category</span> </a> </li>
 	    <li class="dropdown"><a  href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-long-arrow-down"></i><span>Stock</span> <b class="caret"></b></a>
@@ -75,7 +58,8 @@ session_start();
 	   	    <li><a href="stock.php">Stock </a></li>
             <li><a href="stock2.php">Stock In</a></li>
             <li><a href="stock3.php">Stock Out</a></li>
-
+            <li><a href="total_stock.php"> Total Stock</a></li>
+            <li><a href="stock_report.php">Stock report</a></li>
           </ul>
         </li>
       </ul>
@@ -130,8 +114,7 @@ session_start();
                 <thead>
                   <tr>
                     <th> Description </th>
-					<th> Update </th>
-					<th> Delete</th>
+					
                     <th class="td-actions"> </th>
                   </tr>
                 </thead>
@@ -139,9 +122,8 @@ session_start();
 					<?php foreach($Allcategory as $key=>$data){?>
                   <tr>
                     <td ><?php echo $data->getdescription();?></td>
-                    <td class="td-actions"><a href="http://localhost/stock1/View/category.php?updatecategory=<?php echo $data->getcategory_id();?>" class="btn btn-small btn-success"><i class="btn-icon-only icon-edit"> </i></a></td>
-					<td class="td-actions"><a href="http://localhost/stock1/View/category2.php?deletecategory=<?php echo $data->getcategory_id();?>" class="btn btn-danger btn-small"><i class="btn-icon-only icon-remove"> </i></a></td>
-                  </tr>
+                   </tr>
+
 
                 <?php }?>
                 </tbody>

@@ -18,29 +18,7 @@ session_start();
 		$stock->insertstock_out($_POST);
 		header("Location:http://localhost/stock1/View/stock.php");
 	}
-	if(isset($_GET['deletestock'])){
-		// echo "<pre>";
-		// print_r($_POST);
-		// exit;
-		$stock->Deletestock($_GET);
-	}
-if(isset($_POST["update"])){
-		// echo "<pre>";
-		// print_r($_POST);
-		// exit;
-		$stock->updatestock($_POST);
-	}
-	if(isset($_GET['updatestock']) ){
-		$infotoupdate=$stock->getupdateinfo($_GET['updatestock']);
-		//echo "<pre>";print_r($infotoupdate);exit;
-		foreach($infotoupdate as $infotoupdatekey=>$infotoupdate_val){
-			$stock_id=$infotoupdate_val->getstock_id();
-			$nom_domaine=$infotoupdate_val->getNom_domaine();
-
-
-
-		}
-	}
+	
 	$Allstock=$stock->afficherAllstock();
 	// echo "<pre>";
 		// print_r($_POST);
@@ -55,18 +33,33 @@ if(isset($_POST["update"])){
     <meta charset="utf-8">
     <title>Stock </title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+   	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<link href="css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css" />
+	<link href="css/jquery-ui.min.css" rel="stylesheet">
+	<link href="css/font-awesome.css" rel="stylesheet">
+	<link href="C:/wamp/www/travail/css/bootstrap.min.css" rel="stylesheet">
+	<link href="C:/wamp/www/travail/css/bootstrap-responsive.min.css" rel="stylesheet">
 
-    <link href="C:/wamp/www/travail/css/bootstrap.min.css" rel="stylesheet">
-    <link href="C:/wamp/www/travail/css/bootstrap-responsive.min.css" rel="stylesheet">
-		<script src="js/jquery-3.2.1.min.js"></script>
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
-    <link href="C:/wamp/www/travail/css/font-awesome.css" rel="stylesheet">
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
+	<link href="C:/wamp/www/travail/css/font-awesome.css" rel="stylesheet">
 
-    <link href="C:/wamp/www/travail/css/style.css" rel="stylesheet">
+	<link href="C:/wamp/www/travail/css/style.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet" type="text/css">
+	<link href="css/pages/signin.css" rel="stylesheet" type="text/css">
+
+	<script src="js/jquery-1.7.2.min.js"></script>
+	<script src="js/jquery-ui.js"></script>
+
+	<script src="js/bootstrap.js"></script>
+	<script src="js/base.js"></script>
+	<script>
+	$( "#date" ).datepicker({dateFormat: "dd-mm-yy"});
 
 
+</script>
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -83,12 +76,13 @@ if(isset($_POST["update"])){
       <ul class="mainnav">
 	    <li><a href="category2.php"><i class="icon-edit"></i><span>Category</span> </a> </li>
 	    <li><a href="sous_category2.php"><i class="icon-folder-open"></i><span>sub-category</span> </a> </li>
-	    <li class="dropdown"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-long-arrow-down"></i><span>Stock</span> <b class="caret"></b></a>
+	    <li class="dropdown"><a  href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-long-arrow-down"></i><span>Stock</span> <b class="caret"></b></a>
 	   <ul class="dropdown-menu">
-	     	<li><a href="stock.php">Stock </a></li>
+	   	    <li><a href="stock.php">Stock </a></li>
             <li><a href="stock2.php">Stock In</a></li>
             <li><a href="stock3.php">Stock Out</a></li>
-
+            <li><a href="total_stock.php"> Total Stock</a></li>
+            <li><a href="stock_report.php">Stock report</a></li>
           </ul>
         </li>
       </ul>
@@ -127,7 +121,7 @@ if(isset($_POST["update"])){
 						<br>
 
 	<div>
-		<form action="" method="post">
+		<form action="stock.php" method="post">
 		     <p><label>Category</label>
 		    	<select name="category_id" type="text" value=" " id="category">
 					<option value="<?php echo 0;?>">
@@ -150,10 +144,13 @@ if(isset($_POST["update"])){
 						<?php echo $value->getdescription();?>
 					</option>
 				<?php }?></select></p>
-		    <p><label>Stock Out</label><input type="text" name="stock_out" value=" "/></p>
+			<p><label>Initial Balance</label><input type="text" name="initial_balance" readonly value=" " id="initial_balance"/></p>
+			<p><label>Date</label><input type="text" id ="date" name="date" value=" "/></p>
+		    <p><label>Stock Out</label><input type="text" name="stock_out" value=" " id="stock_out"/></p>
+		    <p><label>Balance</label><input type="text" readonly name="balance" value=" " id="balance"/></p>
 			<input type="hidden" name="stock_id" value=""/>
 			<input type="submit" value="Save" name="save"/>
-			<input type="submit" value="Update" name="update"/><br/>
+		<br/>
 		</form>
 		<br>
 		<br>
@@ -184,19 +181,46 @@ if(isset($_POST["update"])){
 	</div> <!-- /main-inner -->
 
 </div> <!-- /main -->
+<script>
+	$( "#date" ).datepicker({dateFormat: "dd-mm-yy"});
+
+
+</script>
   <?php include("footer.php");?>
 </body>
 <script>
 	$("#category").change(function(){
 		$.ajax({
-			method: "GET",
-			url: "http://localhost/stock1/controller/stock_ctl.php",
-			data: { category_id: $('#category').val()},
+		  method: "GET",
+		  url: "http://localhost/stock1/controller/stock_ctl.php",
+		  data: { category_id: $('#category').val()},
 			dataType: "html"
 		})
-		.done(function( result ) {
-			$('#sous_category').html(result);
-		});
+  	.done(function( result ) {
+    	$('#sous_category').html(result);
+  	});
 	});
+
+	$("#sous_category").change(function(){
+		$.ajax({
+		  method: "GET",
+		  url: "http://localhost/stock1/controller/stock_ctl.php",
+		  data: { category_id: $('#category').val(), sub_category_id: $('#sous_category').val()},
+			dataType: "html"
+		})
+  	.done(function( result ) {
+			result = result == '' ? 0 : result;
+    	$('#initial_balance').val(result);
+			$('#balance').val(result);
+  	});
+	});
+
+	$("#stock_out").change(function(){
+		var initial_balance = $('#initial_balance').val();
+		var stock_out = $(this).val();
+		var total = parseInt(initial_balance) - parseInt(stock_out);
+		$("#balance").val(total);
+	});
+	
 </script>
 </html>

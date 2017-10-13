@@ -21,33 +21,7 @@
 			return $allcategory;
 		
 	    }
-			public function Deletecategory($get){
-			//echo "<pre>";print_r($get);exit;
-			$category_mdl=new Category_mdl();
-			$category_mdl->Deletecategory($get['deletecategory']);
-		}
-		
-		public function getupdateinfo($category){
-			$category_mdl=new Category_mdl();
-			$categoryToupdate=$category_mdl->getInfotoUpdate($category);
-			$allinfocategory=array();
-			while($reponse=$categoryToupdate->fetch()){
-				$categoryinfoToupdate=new Category_mdl();
-				$categoryinfoToupdate->setcategory_id($reponse['category_id']);
-				$categoryinfoToupdate->setdescription($reponse['description']);
-				
-				array_push($allinfocategory,$categoryinfoToupdate);
-				
-			}
-			return $allinfocategory;
-		}
-		public function updatecategory($post){
-		//echo "<pre>";print_r($post);exit;
-			$category_mdl=new Category_mdl();
-			$category_mdl->setcategory_id($post['category_id']);
-			$category_mdl->setdescription($post['description']);
-			$category_mdl->updatecategory($category_mdl);
-		}
+			
 	}
 	
 ?>

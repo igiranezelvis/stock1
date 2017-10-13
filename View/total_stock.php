@@ -4,17 +4,10 @@ session_start();
 		header("Location:http://localhost/stock1/View/Authentification.php");
 	}
 	include_once (dirname(__DIR__)."/controller/stock_ctl.php");
-	$stock=new Stock_ctl();
-	if(isset($_POST["save"])){
-    if(isset($_POST["stock"])){
-		$stock->insertstock($_POST);
-		}
-		else{
-		$stock->insertstock_out($_POST);
-	}
-	}
+	$total_stock=new Stock_ctl();
 	
-	$Allstock=$stock->afficherAllstock();
+
+	$Alltotal_stock=$total_stock->afficherAlltotal_stock();
 
 	include_once (dirname(__DIR__)."/controller/stock_ctl.php");
 	include_once (dirname(__DIR__)."/controller/sous_category_ctl.php");
@@ -54,11 +47,11 @@ session_start();
   <div class="subnavbar-inner">
     <div class="container">
       <ul class="mainnav">
-	    <li><a href="category2.php"><i class="icon-edit"></i><span>Category</span> </a> </li>
-	    <li><a href="sous_category2.php"><i class="icon-folder-open"></i><span>sub-category</span> </a> </li>
-	    <li class="dropdown"><a  href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-long-arrow-down"></i><span>Stock</span> <b class="caret"></b></a>
-	   <ul class="dropdown-menu">
-	   	    <li><a href="stock.php">Stock </a></li>
+      <li><a href="category2.php"><i class="icon-edit"></i><span>Category</span> </a> </li>
+      <li><a href="sous_category2.php"><i class="icon-folder-open"></i><span>sub-category</span> </a> </li>
+      <li class="dropdown"><a  href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-long-arrow-down"></i><span>Stock</span> <b class="caret"></b></a>
+     <ul class="dropdown-menu">
+          <li><a href="stock.php">Stock </a></li>
             <li><a href="stock2.php">Stock In</a></li>
             <li><a href="stock3.php">Stock Out</a></li>
             <li><a href="total_stock.php"> Total Stock</a></li>
@@ -101,35 +94,28 @@ session_start();
 
 		<div class="widget widget-table action-table">
             <div class="widget-header"> <i class="icon-th-list"></i>
-              <h3>stock </h3>
+              <h3> Stock</h3>
             </div>
             <!-- /widget-header -->
             <div class="widget-content">
-			 <?php if(!empty($Allstock)){?>
+			 <?php if(!empty($Alltotal_stock)){?>
               <table class="table table-striped table-bordered">
                 <thead>
                   <tr>
                     <th> Category </th>
                     <th> Sub_category</th>
-                    <th> Initial balance </th>
-                     <th> Date </th>
-                    <th> Stock In </th>
-                    <th> Stock Out</th>
-                    <th> Balance </th>
+        
+                    <th>Total Balance </th>
 					
                     <th class="td-actions"> </th>
                   </tr>
                 </thead>
                 <tbody>
-					<?php foreach($Allstock as $key=>$data){?>
+					<?php foreach($Alltotal_stock as $key=>$data){?>
                   <tr>
                     <td ><?php echo $data->getcategory_description();?></td>
                     <td ><?php echo $data->getsous_category_description();?></td>
-                    <td ><?php echo $data->getinitial_balance();?></td>
-                    <td ><?php echo $data->getdate();?></td>
-                    <td ><?php echo $data->getstock_in();?></td>
-                    <td ><?php echo $data->getstock_out();?></td>
-                    <td ><?php echo $data->getbalance();?></td>
+                    <td ><?php echo $data->gettotal();?></td>
                     
                   </tr>
 

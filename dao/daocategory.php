@@ -11,13 +11,10 @@
 		}
 		
 		public function genererAffichageAllcategory($table,$category){
-			$sql="SELECT * FROM ".$table." ORDER BY category_id ";
+			$sql="SELECT * FROM ".$table." ORDER BY category_id  DESC";
 			return $sql;
 		}
-		public function getcategoryToupdate($tablecategory,$category_id){
-			$sql="SELECT * FROM ".$tablecategory."  WHERE category_id=".$category_id." ";
-			return $sql;
-		}
+		
 		
 		
 		

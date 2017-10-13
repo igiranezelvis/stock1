@@ -10,7 +10,12 @@
 
 
 		public function genererAffichageAllstock(){
-			$sql="SELECT st.initial_balance,st.stock_in,st.stock_out,st.balance, sousca.description as sous_category_description,cat.description as category_description FROM stock as st INNER JOIN sous_category as sousca ON ( st.sous_category_id=sousca.sous_category_id) INNER JOIN category as cat ON ( st.category_id=cat.category_id) ORDER BY stock_id DESC ";
+			$sql="SELECT st.initial_balance,st.date,st.stock_in,st.stock_out,st.balance, sousca.description as sous_category_description,cat.description as category_description FROM stock as st INNER JOIN sous_category as sousca ON ( st.sous_category_id=sousca.sous_category_id) INNER JOIN category as cat ON ( st.category_id=cat.category_id) ORDER BY stock_id DESC LIMIT 20";
+			return $sql;
+		}
+
+		public function genererAffichageAlltotal_stock(){
+			$sql="SELECT st.total , sousca.description as sous_category_description,cat.description as category_description FROM total_stock as st INNER JOIN sous_category as sousca ON ( st.sous_category_id=sousca.sous_category_id) INNER JOIN category as cat ON ( st.category_id=cat.category_id) ORDER BY id DESC ";
 			return $sql;
 		}
 
@@ -29,7 +34,14 @@
 			return $sql;
 		}
 
-
+      public function get_sum_stock_in($category_id, $sub_category_id) {
+			$sql = "UPDATE total_stock SET  total_stock_in = total_stock_in ".($operation == 'in'?" + ":" - ")."".$stock_in." where category_id=".$category_id." and sous_category_id=".$sub_category_id."";
+			return $sql;
+		}
+		public function get_sum_stock_out($category_id, $sub_category_id) {
+			$sql = "UPDATE total_stock SET  total_stock_out = total_stock_out".($operation == 'in'?" + ":" - ")."".$stock_out." where category_id=".$category_id." and sous_category_id=".$sub_category_id."";
+			return $sql;
+		}
 	}
 
 

@@ -12,7 +12,8 @@
         protected $category_description;
         protected $description;
 
-        function __construct($category_id= NULL,$description= NULL) {
+        function __construct($sous_category_id= NULL,$category_id= NULL,$description= NULL) {
+        	$this->sous_category_id=$sous_category_id;
             $this->category_id=$category_id;
             $this->description=$description;
         }
@@ -63,14 +64,7 @@
 			$result=$connection->query($requette);
 			return $result;
 		}
-	public function Deletesous_category($sous_category_id){
-		$table="sous_category";
-			$dao=new Dao();
-			$request=$dao->generateDeletequerysous_category($table,$sous_category_id);
-			$dbconnect=new Connection();
-			$connection=$dbconnect->connectiondb();
-			$connection->exec($request);
-		}
+       
   public function get_sub_categories($category_id) {
     $table_sous_category="sous_category";
     $table_category="category";

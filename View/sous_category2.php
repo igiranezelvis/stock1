@@ -11,27 +11,7 @@ session_start();
 		// exit;
 		$sous_category->Insertsous_category($_POST);
 	}
-	if(isset($_GET['deletesous_category']) ){
 
-		$sous_category->DeleteSous_category($_GET);
-	}
-	if(isset($_POST["update"])){
-		// echo "<pre>";
-		// print_r($_POST);
-		// exit;
-		$sous_category->updatesous_category($_POST);
-	}
-	if(isset($_GET['updatesous_category']) ){
-		$infotoupdate=$sous_category->getupdateinfo($_GET['updatesous_category']);
-		//echo "<pre>";print_r($infotoupdate);exit;
-		foreach($infotoupdate as $infotoupdatekey=>$infotoupdate_val){
-			$iddomaine=$infotoupdate_val->getIddomaine();
-			$nom_domaine=$infotoupdate_val->getNom_domaine();
-
-
-
-		}
-	}
 	$Allsous_category=$sous_category->afficherAllsous_category();
 	 //echo "<pre>";
 		 //print_r($_POST);
@@ -59,12 +39,6 @@ session_start();
     <link href="C:/wamp/www/travail/css/style.css" rel="stylesheet">
 
 
-
-    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
   </head>
 
 <body>
@@ -75,12 +49,13 @@ session_start();
       <ul class="mainnav">
 	    <li><a href="category2.php"><i class="icon-edit"></i><span>Category</span> </a> </li>
 	    <li><a href="sous_category2.php"><i class="icon-folder-open"></i><span>sub-category</span> </a> </li>
-	    <li class="dropdown"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-long-arrow-down"></i><span>Stock</span> <b class="caret"></b></a>
+	    <li class="dropdown"><a  href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-long-arrow-down"></i><span>Stock</span> <b class="caret"></b></a>
 	   <ul class="dropdown-menu">
 	   	    <li><a href="stock.php">Stock </a></li>
             <li><a href="stock2.php">Stock In</a></li>
             <li><a href="stock3.php">Stock Out</a></li>
-
+            <li><a href="total_stock.php"> Total Stock</a></li>
+            <li><a href="stock_report.php">Stock report</a></li>
           </ul>
         </li>
       </ul>
@@ -136,8 +111,7 @@ session_start();
                   <tr>
                     <th> Category </th>
                      <th>Sub-category description </th>
-					<th> Update </th>
-					<th> Delete</th>
+					
                     <th class="td-actions"> </th>
                   </tr>
                 </thead>
@@ -146,9 +120,7 @@ session_start();
                   <tr>
                     <td ><?php echo $data->getcategory_description();?></td>
                     <td ><?php echo $data->getdescription();?></td>
-                    <td class="td-actions"><a href="http://localhost/stock1/View/sous_category.php?updatesous_category=<?php echo $data->getsous_category_id();?>" class="btn btn-small btn-success"><i class="btn-icon-only icon-edit"> </i></a></td>
-					<td class="td-actions"><a href="http://localhost/stock1/View/sous_category2.php?deletesous_category=<?php echo $data->getsous_category_id();?>" class="btn btn-danger btn-small"><i class="btn-icon-only icon-remove"> </i></a></td>
-                  </tr>
+                     </tr>
 
                 <?php }?>
                 </tbody>

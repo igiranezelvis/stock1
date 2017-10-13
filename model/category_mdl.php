@@ -2,7 +2,7 @@
     /**
      * 
      */
-   // include_once (dirname(__DIR__)."/model/personne_mdl.php");
+   
     include_once (dirname(__DIR__)."/dao/daocategory.php");
     include_once (dirname(__DIR__)."/dao/dao.php");
 	 include_once (dirname(__DIR__)."/dao/connection.php");
@@ -45,33 +45,7 @@
 			return $result;
 		}
 
-		public function Deletecategory($category_id){
-		$table="category";
-			$dao=new Dao();
-			$request=$dao->generateDeletequerycategory($table,$category_id);
-			$dbconnect=new Connection();
-			$connection=$dbconnect->connectiondb();
-			$connection->exec($request);	
-		}
-		public function getInfotoUpdate($category_id){
-			$tablecategory="category";
-			$dao=new Daocategory();
-			$request=$dao->getcategoryToupdate($tablecategory,$category_id);
-			$dbconnect=new Connection();
-			$connection=$dbconnect->connectiondb();
-			$result=$connection->query($request);
-			return $result;
-		}
-		public function updatecategory($object){
-			$table="category";
-			$param=array("description"=>$object->getdescription(),"category_id"=>$object->getcategory_id());
-			$dao=new Dao();
-			$request=$dao->generateUpdatequerycategory($table,$param);
-			$dbconnect=new Connection();
-			$connection=$dbconnect->connectiondb();
-			$connection->exec($request);	
-			
-		}
+		
     }
     
 ?>
