@@ -18,7 +18,7 @@ session_start();
 		$stock->insertstock_out($_POST);
 		header("Location:http://localhost/stock1/View/stock.php");
 	}
-	
+
 	$Allstock=$stock->afficherAllstock();
 	// echo "<pre>";
 		// print_r($_POST);
@@ -221,6 +221,6 @@ session_start();
 		var total = parseInt(initial_balance) - parseInt(stock_out);
 		$("#balance").val(total);
 	});
-	
+
 </script>
 </html>

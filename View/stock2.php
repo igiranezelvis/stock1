@@ -18,7 +18,7 @@ session_start();
 		$stock->insertstock($_POST);
 		header("Location:http://localhost/stock1/View/stock.php");
 	}
-	
+
 	$Allstock=$stock->afficherAllstock();
 	// echo "<pre>";
 		// print_r($_POST);
@@ -113,7 +113,7 @@ session_start();
 						<br>
 
 	<div>
-		<form action="stock.php" method="post">
+		<form action="" method="post">
 		    <p><label>Category</label>
 		    	<select name="category_id" type="text" value=" " id="category" >
 					<option value="<?php echo 0;?>">

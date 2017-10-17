@@ -74,8 +74,13 @@
 		public function get_initial_balance($get) {
 			$stock_mdl=new Stock_mdl();
 			$sum_initial_balance = $stock_mdl->get_sum_initial_balance($get['category_id'], $get['sub_category_id']);
-			while($reponse = $sum_initial_balance->fetch()){
-				$html = $reponse['initial_balance'];
+			if($sum_initial_balance->rowCount() > 0) {
+				while($reponse = $sum_initial_balance->fetch()){
+					$html = $reponse['initial_balance'];
+				}
+			}else
+			{
+				$html = 0;
 			}
 			echo $html;
 		}

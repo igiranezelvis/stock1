@@ -28,7 +28,7 @@
             $this->stock_out=$stock_out;
             $this->balance=$balance;
            $this->total=$total;
-           }  
+           }
 
 		public function getstock_id(){
 			return $this->stock_id;
@@ -107,7 +107,7 @@
 			$connection=$dbconnect->connectiondb();
             $connection->exec($request);
             $result=$connection->query($is_total_sql);
-            $total_sql = $dao_stock->get_sum_initial_balance($object->getcategory_id(), $object->getsous_category_id());
+            $total_sql = $dao_stock->get_sum_initial_balance_stock($object->getcategory_id(), $object->getsous_category_id());
             $total = $connection->query($total_sql)->fetch(PDO::FETCH_ASSOC);
             if($result->rowCount() == 0){
             $this->insert_total_stock($object->getcategory_id(), $object->getsous_category_id(), $total['initial_balance']);
@@ -125,7 +125,7 @@
 			$dbconnect=new Connection();
 			$connection=$dbconnect->connectiondb();
             $result=$connection->query($is_total_sql);
-            $total_sql = $dao_stock->get_sum_initial_balance($object->getcategory_id(), $object->getsous_category_id());
+            $total_sql = $dao_stock->get_sum_initial_balance_stock($object->getcategory_id(), $object->getsous_category_id());
             $total = $connection->query($total_sql)->fetch(PDO::FETCH_ASSOC);
             if($result->rowCount() == 0){
             $this->insert_total_stock($object->getcategory_id(), $object->getsous_category_id(), $total['initial_balance']);
