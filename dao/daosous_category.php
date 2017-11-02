@@ -8,7 +8,7 @@
 		function __construct() {
 		}
 		public function getLastid($table){
-			$sql="SELECT * FROM ".$table." ORDER BY sous_category_id DESC LIMIT 0,1";
+			$sql="SELECT * FROM ".$table." ORDER BY sous_category_id ASC LIMIT 0,1";
 			return $sql;
 		}
 

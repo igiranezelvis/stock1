@@ -22,6 +22,7 @@
 			$stock_mdl->setbalance($post['balance']);
 			$stock_mdl->insertstock_out($stock_mdl);
 		}
+		
 
 		public function afficherAllstock(){
 			$stock_mdl=new Stock_mdl();
@@ -42,6 +43,26 @@
 			return $allstock;
 
 	    }
+	    public function afficherAllstock_date(){
+			$stock_mdl=new Stock_mdl();
+			$Allstock=$stock_mdl->afficherAllstock_date_mdl();
+			$allstock=array();
+			while($reponse=$Allstock->fetch()){
+				$stock=new Stock_mdl();
+				$stock->setcategory_description($reponse['category_description']);
+				$stock->setsous_category_description($reponse['sous_category_description']);
+				$stock->setinitial_balance($reponse['initial_balance']);
+				$stock->setdate($reponse['date']);
+				$stock->setstock_in($reponse['stock_in']);
+				$stock->setstock_out($reponse['stock_out']);
+				$stock->setbalance($reponse['balance']);
+				array_push($allstock,$stock);
+
+			}
+			return $allstock;
+
+	    }
+	 
         public function afficherAlltotal_stock(){
 			$total_stock_mdl=new Stock_mdl();
 			$Alltotal_stock=$total_stock_mdl->afficherAlltotal_stock_mdl();

@@ -55,7 +55,8 @@ session_start();
             <li><a href="stock2.php">Stock In</a></li>
             <li><a href="stock3.php">Stock Out</a></li>
             <li><a href="total_stock.php"> Total Stock</a></li>
-            <li><a href="stock_report.php">Stock report</a></li>
+            <li><a href="stock_report.php">  Stock Report</a></li>
+           
           </ul>
         </li>
       </ul>

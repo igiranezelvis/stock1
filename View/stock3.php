@@ -16,7 +16,7 @@ session_start();
 		// print_r($_POST);
 		// exit;
 		$stock->insertstock_out($_POST);
-		header("Location:http://localhost/stock1/View/stock.php");
+		header("Location:http://localhost/stock1/View/stock3.php");
 	}
 
 	$Allstock=$stock->afficherAllstock();
@@ -82,7 +82,7 @@ session_start();
             <li><a href="stock2.php">Stock In</a></li>
             <li><a href="stock3.php">Stock Out</a></li>
             <li><a href="total_stock.php"> Total Stock</a></li>
-            <li><a href="stock_report.php">Stock report</a></li>
+            <li><a href="stock_report.php">  Stock Report</a></li>
           </ul>
         </li>
       </ul>
@@ -121,7 +121,7 @@ session_start();
 						<br>
 
 	<div>
-		<form action="stock.php" method="post">
+		<form action="stock3.php" method="post">
 		     <p><label>Category</label>
 		    	<select name="category_id" type="text" value=" " id="category">
 					<option value="<?php echo 0;?>">
@@ -152,6 +152,65 @@ session_start();
 			<input type="submit" value="Save" name="save"/>
 		<br/>
 		</form>
+		<form>		
+			<fieldset>
+
+
+		<div class="widget widget-table action-table">
+            <div class="widget-header"> <i class="icon-th-list"></i>
+              <h3>stock </h3>
+            </div>
+            <!-- /widget-header -->
+            <div class="widget-content">
+			 <?php if(!empty($Allstock)){?>
+              <table class="table table-striped table-bordered">
+                <thead>
+                  <tr>
+                    <th> Category </th>
+                    <th> Sub_category</th>
+                    <th> Date </th>
+                    <th> Initial balance </th>
+                    <th> Stock In </th>
+                    <th> Stock Out</th>
+                    <th> Balance </th>
+					
+                    <th class="td-actions"> </th>
+                  </tr>
+                </thead>
+                <tbody>
+					<?php foreach($Allstock as $key=>$data){?>
+                  <tr>
+                    <td ><?php echo $data->getcategory_description();?></td>
+                    <td ><?php echo $data->getsous_category_description();?></td>
+                    <td ><?php echo $data->getdate();?></td>
+                    <td ><?php echo $data->getinitial_balance();?></td>
+                    <td ><?php echo $data->getstock_in();?></td>
+                    <td ><?php echo $data->getstock_out();?></td>
+                    <td ><?php echo $data->getbalance();?></td>
+                    
+                  </tr>
+
+                <?php }?>
+                </tbody>
+              </table>
+			  <?php }?>
+            </div>
+            <!-- /widget-content -->
+          </div>
+
+
+	  <center><br/>
+
+
+
+
+
+
+											<br />
+
+
+										</fieldset>
+					</form>
 		<br>
 		<br>
 		<br>
