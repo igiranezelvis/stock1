@@ -22,7 +22,6 @@
 			$stock_mdl->setbalance($post['balance']);
 			$stock_mdl->insertstock_out($stock_mdl);
 		}
-		
 
 		public function afficherAllstock(){
 			$stock_mdl=new Stock_mdl();
@@ -43,26 +42,6 @@
 			return $allstock;
 
 	    }
-	    public function afficherAllstock_date(){
-			$stock_mdl=new Stock_mdl();
-			$Allstock=$stock_mdl->afficherAllstock_date_mdl();
-			$allstock=array();
-			while($reponse=$Allstock->fetch()){
-				$stock=new Stock_mdl();
-				$stock->setcategory_description($reponse['category_description']);
-				$stock->setsous_category_description($reponse['sous_category_description']);
-				$stock->setinitial_balance($reponse['initial_balance']);
-				$stock->setdate($reponse['date']);
-				$stock->setstock_in($reponse['stock_in']);
-				$stock->setstock_out($reponse['stock_out']);
-				$stock->setbalance($reponse['balance']);
-				array_push($allstock,$stock);
-
-			}
-			return $allstock;
-
-	    }
-	 
         public function afficherAlltotal_stock(){
 			$total_stock_mdl=new Stock_mdl();
 			$Alltotal_stock=$total_stock_mdl->afficherAlltotal_stock_mdl();
@@ -106,6 +85,50 @@
 			echo $html;
 		}
 
+		public function search($get) {
+			$stock_mdl=new Stock_mdl();
+			$Allstock=$stock_mdl->afficherAllstock_mdl_per_cat_sub($get['category'],$get['sous_category']);
+			$allstock=array();
+			$html = "";
+			while($reponse=$Allstock->fetch()){
+				$html .= "<tr>
+									<td>".$reponse['category_description']."</td>
+									<td>".$reponse['sous_category_description']."</td>
+									<td>".$reponse['initial_balance']."</td>
+									<td>".$reponse['date']."</td>
+									<td>".$reponse['stock_in']."</td>
+									<td>".$reponse['stock_out']."</td>
+									<td>".$reponse['balance']."</td>
+									<td></td>
+								 </tr>";
+
+			}
+			echo $html;
+
+		}
+
+		public function search_by_date($get) {
+			$stock_mdl=new Stock_mdl();
+			$Allstock=$stock_mdl->afficherAllstock_mdl_per_date($get['category'],$get['sous_category'], $get['date_debut'],$get['date_fin']);
+			$allstock=array();
+			$html = "";
+			while($reponse=$Allstock->fetch()){
+				$html .= "<tr>
+									<td>".$reponse['category_description']."</td>
+									<td>".$reponse['sous_category_description']."</td>
+									<td>".$reponse['initial_balance']."</td>
+									<td>".$reponse['date']."</td>
+									<td>".$reponse['stock_in']."</td>
+									<td>".$reponse['stock_out']."</td>
+									<td>".$reponse['balance']."</td>
+									<td></td>
+								 </tr>";
+
+			}
+			echo $html;
+
+		}
+
 	}
 	if(isset($_GET['category_id']) && !isset($_GET['sub_category_id'])) {
 		$stock = new Stock_ctl();
@@ -115,5 +138,15 @@
 	if(isset($_GET['sub_category_id'])) {
 		$stock = new Stock_ctl();
 		$stock->get_initial_balance($_GET);
+	}
+
+	if(isset($_GET['category']) && isset($_GET['sous_category']) && isset($_GET['type'])) {
+		$stock = new Stock_ctl();
+		$stock->search($_GET);
+	}
+
+	if(isset($_GET['category']) && isset($_GET['sous_category']) && isset($_GET['date_debut']) && isset($_GET['date_fin'])) {
+		$stock = new Stock_ctl();
+		$stock->search_by_date($_GET);
 	}
 ?>

@@ -1,5 +1,8 @@
 <?php
-   
+    /**
+     *
+     */
+    //include_once (dirname(__DIR__)."/model/personne_mdl.php");
     include_once (dirname(__DIR__)."/dao/daostock.php");
     include_once (dirname(__DIR__)."/dao/dao.php");
 	include_once (dirname(__DIR__)."/dao/connection.php");
@@ -154,19 +157,31 @@
 			$result=$connection->query($requette);
 			return $result;
 		}
-	
-		public function afficherAllstock_date_mdl(){
+
+    public function afficherAllstock_mdl_per_cat_sub($cat, $sub_cat){
 			$table_stock="stock";
 			$table_sous_category="sous_category";
 			$table_category="category";
 			$dao=new Daostock();
-			$requette=$dao->genererAffichageAllstock_date();
+			$requette=$dao->genererAffichageAllstock_cat_sub($cat, $sub_cat);
 			$dbconnect=new Connection();
 			$connection=$dbconnect->connectiondb();
 			$result=$connection->query($requette);
 			return $result;
 		}
 
+
+    public function afficherAllstock_mdl_per_date($cat, $sub_cat, $date_debut, $date_fin){
+			$table_stock="stock";
+			$table_sous_category="sous_category";
+			$table_category="category";
+			$dao=new Daostock();
+			$requette=$dao->genererAffichageAllstock_per_date($cat, $sub_cat, $date_debut, $date_fin);
+			$dbconnect=new Connection();
+			$connection=$dbconnect->connectiondb();
+			$result=$connection->query($requette);
+			return $result;
+		}
 		public function afficherAlltotal_stock_mdl(){
 			$table_stock="total_stock";
 			$table_sous_category="sous_category";
@@ -178,7 +193,6 @@
 			$result=$connection->query($requette);
 			return $result;
 		}
-		
     public function update_total_stock($category_id, $sub_category_id, $stock_in, $operation) {
             $dao_stock = new Daostock();
 			$requette=$dao_stock->update_total_stock($category_id, $sub_category_id, $stock_in, $operation);
@@ -203,7 +217,23 @@
 			$result=$connection->query($requette);
 			return $result;
     }
-  
+    public function get_sum_stock_in($category_id, $sub_category_id) {
+			$dao=new Daostock();
+			$requette=$dao->get_sum_stock_in($category_id, $sub_category_id);
+			$dbconnect=new Connection();
+			$connection=$dbconnect->connectiondb();
+			$result=$connection->query($requette);
+			return $result;
+    }
+      public function get_sum_stock_out($category_id, $sub_category_id) {
+			$dao=new Daostock();
+			$requette=$dao->get_sum_stock_out($category_id, $sub_category_id);
+			$dbconnect=new Connection();
+			$connection=$dbconnect->connectiondb();
+			$result=$connection->query($requette);
+			return $result;
+    }
+
     }
 
 ?>
